@@ -1,0 +1,10 @@
+CREATE OR REPLACE FUNCTION public.postgresql_test(pin_code int)
+RETURNS setof  refcursor
+LANGUAGE plpgsql
+AS $function$
+begin
+	select * from post_office;
+	return;
+end ;
+$function$
+;
