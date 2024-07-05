@@ -1,0 +1,89 @@
+
+database: collection of structured data
+
+functions:
+backup and recovery ,
+structured,
+secured ,
+performance
+
+mangodb: send json and get as bson 
+
+no sql database:
+anything that is not using sql 
+
+document database:
+document-text data
+
+obj oriented database:
+
+text search database:
+fast to search,
+elastic search, solar
+
+JSON vs BSON :
+JSON:textbased format 
+BSON:binary encoded format
+
+create pocedure:
+
+CREATE PROCEDURE GetPostOfficesByState (IN p_state_code CHAR(2))
+language plpgsql
+as $$ 
+begin 
+    SELECT * 
+    FROM post_office
+    WHERE state_code = p_state_code;
+end;
+$$;
+
+create table:
+
+CREATE TABLE post_office (    post_office_id serial PRIMARY KEY,
+    area_name TEXT,    city_name TEXT,    pin_code INT,    phone_number BIGINT,    state_code CHAR(2)
+);CREATE TABLE state_details (    state_code CHAR(2) PRIMARY KEY,
+    state_name VARCHAR(100)
+);
+
+
+insert into table :
+
+INSERT INTO state_details (state_code, state_name) VALUES ('TN', 'Tamil Nadu'), ('KA', 'Karnataka');
+INSERT INTO post_office (area_name, city_name, pin_code, phone_number, state_code) 
+VALUES('Pethaniapuram 2, Gnana Olivupuram', 'Madurai', 625016, 9900000001, 'TN'),
+('Loyola College Campus, Nungambakkam', 'Chennai', 600034, 9900000002, 'TN'),
+('MG Road', 'Bangalore', 560001, 9900000003, 'KA');
+
+
+View table(select):
+
+select * from state_details;
+select * from post_office;
+
+
+where condition:
+
+select * from post_office where city_name='Bangalore';
+
+
+join:
+
+SELECT po.post_office_id, po.area_name, po.city_name, po.pin_code, po.phone_number, s.state_name FROM post_office po 
+JOIN state_details s ON po.state_code ='KA';
+
+View:It doesn't store anything. When there is a query on view, it runs the query of the view definition. Actual data comes from table.
+
+Materialised views: Stores data physically and get updated periodically. While querying MV, it gives data from MV.
+
+
+create view:
+CREATE VIEW post_office_view as SELECT po.post_office_id, po.area_name, po.city_name, po.pin_code, po.phone_number,s.state_name 
+FROM post_office po
+JOIN state_details s ON po.state_code ='KA';
+
+create materialized view:
+CREATE MATERIALIZED VIEW state_post_office_count as SELECT state_code, COUNT(*) AS post_office_count FROM post_office GROUP BY state_code;
+
+drop table:
+
+drop table post_office
